@@ -1,0 +1,86 @@
+[
+    {
+        "kind": 1,
+        "language": "markdown",
+        "value": "### Start a bookshop instance",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "cds",
+        "value": "var { server } = cds.test('@capire/bookshop')",
+        "outputs": []
+    },
+    {
+        "kind": 1,
+        "language": "markdown",
+        "value": "### With cds.reflect, remember some entities for simpler queries ",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "cds",
+        "value": "{ Books, Authors } = cds.entities",
+        "outputs": []
+    },
+    {
+        "kind": 1,
+        "language": "markdown",
+        "value": "### Support for Path expression",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "cds",
+        "value": "// read all Books and join them with their Authors and Genre\nSELECT`from ${Books} {\n    title as book,\n    author.name as author,\n    genre.name as genre\n}`",
+        "outputs": []
+    },
+    {
+        "kind": 1,
+        "language": "markdown",
+        "value": "### Use `exists` predicate",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "cds",
+        "value": "// Insert new Author, which has not yet written a book\nawait INSERT.into(Authors).entries( { name: 'Upcoming Author' } )\n\n// Select all Authors which have written at least one book\nSELECT`from ${Authors} {\n    name as author,\n    count(books.ID) as bookCount\n} where not exists books\n  group by $self.author`",
+        "outputs": []
+    },
+    {
+        "kind": 1,
+        "language": "markdown",
+        "value": "### Mappings for OData and SAP HANA Functions",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "cds",
+        "value": "// Select average author age\n// `average` is an OData function, while `years_between` is a SAP HANA native function\nSELECT`from ${Authors} {\n    books.genre.name as genre,\n    average(\n            years_between( dateOfBirth, dateOfDeath )\n           ) as averageAuthorAge\n} group by $self.genre`",
+        "outputs": []
+    },
+    {
+        "kind": 1,
+        "language": "markdown",
+        "value": "### Improved `expand`",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "cds",
+        "value": "// Select all Authors with a list of all their books\nSELECT`from ${Authors} {\n    name as author,\n    books {\n            title,\n            genre { name }\n        }\n}`",
+        "outputs": []
+    },
+    {
+        "kind": 1,
+        "language": "markdown",
+        "value": "### New `SELECT.localized` options",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "cds",
+        "value": "// Insert a new translation for a Book\nawait INSERT.into(Books.texts).entries(\n    {\n        ID: 201,\n        locale: 'es',\n        title: 'Cumbres borrascosas',\n        descr: 'Cumbres Borrascosas es la única novela de la escritora inglesa Emily Brontë (1818-1848). Publicada en 1847 bajo el seudónimo de Ellis Bell, la novela fue rechazada en gran medida por el público victoriano y ahora se considera un clásico de la ficción británica del siglo XIX.'\n    }\n)\n\n// set new default `locale`\ncds.context = { locale: 'es' }\n\n// query localized version of \"Wuthering Heights\"\nawait SELECT.localized(Books).where('ID = 201')",
+        "outputs": []
+    }
+]
