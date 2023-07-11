@@ -2,6 +2,66 @@
     {
         "kind": 1,
         "language": "markdown",
+        "value": "# Disclaimer\n\nThis notebook is intended to document what steps you have to perform in order to be able to fire queries against the bookshop.\n\nHowever, it is currently not possible to use it interactively as you might expect of a cap notebook.\n\nWe are working on making interactive `cds repl` sessions work with cap notebooks, so stay tuned!\n\nFor the time being, please copy the commands - one after another - into your shell and execute them there.\nTo actually run a query within you `cds repl` session, prepend the `await` keyword.\n\nUsually, a CQN query in the new database services will undergo two main steps before being sent to the database:\n\n1. the CQN is _normalized_ so that we have a \"SQL-Like\" CQN\n2. the _normalized_ CQN is rendered to the specific database dialect\n\nYou can observe the normalization (1.) by appending `forSQL()` to your query.\nYou can observe the final SQL string (2.) by appending `toSQL()` to your query.\n\nFor example, in your `cds repl` session you can execute the following to insights into the normalization:\n\n```\nSELECT`from ${Books} {\n    title as book,\n    author.name as author,\n    genre.name as genre\n}`.forSQL()\n```\n",
+        "outputs": []
+    },
+    {
+        "kind": 1,
+        "language": "markdown",
+        "value": "### Prerequisites",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "shell",
+        "value": "npm install",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "shell",
+        "value": "npm add @cap-js/sqlite\nnpm add @cap-js/postgres # if you wish, you can also execute everything below with `@cap-js/postgres`",
+        "outputs": []
+    },
+    {
+        "kind": 1,
+        "language": "markdown",
+        "value": "### Observe that the default db profile has been changed to the new DB drivers",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "shell",
+        "value": "cds env requires.db # --profile pg",
+        "outputs": []
+    },
+    {
+        "kind": 1,
+        "language": "markdown",
+        "value": "#### Postgres only: deploy the bookshop data",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "shell",
+        "value": "cds deploy bookshop --profile pg",
+        "outputs": []
+    },
+    {
+        "kind": 1,
+        "language": "markdown",
+        "value": "### Start an interactive `cds repl` session",
+        "outputs": []
+    },
+    {
+        "kind": 2,
+        "language": "shell",
+        "value": "cds repl # --profile pg",
+        "outputs": []
+    },
+    {
+        "kind": 1,
+        "language": "markdown",
         "value": "### Start a bookshop instance",
         "outputs": []
     },
