@@ -13,6 +13,7 @@
     "@cap-js/sqlite": "*"
   },
   "dependencies": {
+    "@cap-js/postgres": "^1.2.1",
     "@sap/cds": "^7",
     "express": "^4.17.1",
     "passport": ">=0.4.1"
