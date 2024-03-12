@@ -20,5 +20,10 @@
     "genres": "cds serve test/genres.cds",
     "start": "cds-serve",
     "watch": "cds watch"
+  },
+  "cds": {
+    "cdsc": {
+      "tenantDiscriminator": true
+    }
   }
 }

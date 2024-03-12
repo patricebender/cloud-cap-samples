@@ -1,6 +1,8 @@
 using { Currency, managed, sap } from '@sap/cds/common';
 namespace sap.capire.bookshop;
 
+annotate Currency with @cds.tenant.independent;
+
 entity Books : managed {
   key ID   : Integer;
   title    : localized String(111)  @mandatory;
@@ -23,6 +25,7 @@ entity Authors : managed {
   books        : Association to many Books on books.author = $self;
 }
 
+@cds.tenant.independent
 /** Hierarchically organized Code List for Genres */
 entity Genres : sap.common.CodeList {
   key ID   : Integer;
