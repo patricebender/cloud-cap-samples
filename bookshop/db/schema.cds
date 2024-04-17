@@ -11,6 +11,8 @@ entity Books : managed {
   price    : Decimal;
   currency : Currency;
   image    : LargeBinary @Core.MediaType: 'image/png';
+
+  authorsAddress: String = author.address;
 }
 
 entity Authors : managed {
@@ -21,6 +23,10 @@ entity Authors : managed {
   placeOfBirth : String;
   placeOfDeath : String;
   books        : Association to many Books on books.author = $self;
+
+  street: String;
+  city: String;
+  address: String = street || ', ' || city;
 }
 
 /** Hierarchically organized Code List for Genres */
