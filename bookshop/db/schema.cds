@@ -20,11 +20,17 @@ entity Authors : managed {
   dateOfDeath  : Date;
   placeOfBirth : String;
   placeOfDeath : String;
+  country: Association to Country;
   books        : Association to many Books on books.author = $self;
 }
 
+entity Country {
+  key ID: Integer;
+  name: String(111);
+}
+
 /** Hierarchically organized Code List for Genres */
-entity Genres : sap.common.CodeList {
+entity Genres : sap.common.CodeList, managed {
   key ID   : Integer;
   parent   : Association to Genres;
   children : Composition of many Genres on children.parent = $self;
